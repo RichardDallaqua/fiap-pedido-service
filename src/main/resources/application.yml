@@ -16,3 +16,6 @@ server:
   port: 5000
   servlet:
     context-path: /lanchonete
+
+host:
+  payment: http://localhost:8080/pagamento

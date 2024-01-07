@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import com.fiap.lanchonete.dataprovider.database.produto.ProdutoDataProvider;
@@ -20,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import com.fiap.lanchonete.commons.exception.NotFoundException;
 import com.fiap.lanchonete.commons.type.CategoriaProduto;
 import com.fiap.lanchonete.controller.dto.ProdutoDTO;
-import com.fiap.lanchonete.dataprovider.database.produto.repository.ProdutoRepository;
 import com.fiap.lanchonete.domain.ProdutoDomain;
 import com.fiap.lanchonete.fixture.Fixture;
 import com.fiap.lanchonete.services.ProdutoService;

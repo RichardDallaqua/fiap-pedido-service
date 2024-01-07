@@ -59,4 +59,11 @@ public class PedidoController {
         pedidoService.alterarStatusPedido(idPedido, statusPedido);
         return ResponseEntity.noContent().build();
     }
+
+    public void realizarPagamento(){
+
+    }
+
+    //#001: criar endpoint que realiza pagamento chamando o serviço de pagamento
+
 }

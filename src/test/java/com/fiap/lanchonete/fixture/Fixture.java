@@ -9,8 +9,6 @@ import com.fiap.lanchonete.commons.type.CategoriaProduto;
 import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.controller.dto.ClienteDTO;
 import com.fiap.lanchonete.controller.dto.ProdutoDTO;
-import com.fiap.lanchonete.dataprovider.database.cliente.documents.ClienteDocument;
-import com.fiap.lanchonete.dataprovider.database.pedido.documents.PedidoDocument;
 import com.fiap.lanchonete.domain.CPFDomain;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.domain.PedidoDomain;
@@ -53,7 +51,7 @@ public class Fixture {
     public class PedidoFixture {
 
         public static PedidoDomain criarPedido() {
-            return PedidoDomain.builder().id(UUID.randomUUID()).produtoList(new ArrayList<>())
+            return PedidoDomain.builder().id(UUID.randomUUID()).listaProdutos(new ArrayList<>())
                     .valorTotalDaCompra(BigDecimal.ZERO).quantidadeTotalDeItems(0)
                     .cliente(ClienteFixture.criarClientePadrao()).statusPedido(StatusPedido.ABERTO).build();
         }

@@ -2,10 +2,10 @@ package com.fiap.lanchonete.dataprovider.database.pedido.mapper;
 
 import java.util.List;
 
+import com.fiap.lanchonete.dataprovider.database.pedido.documents.PedidoDocument;
 import com.fiap.lanchonete.domain.CPFDomain;
 import org.mapstruct.Mapper;
 
-import com.fiap.lanchonete.dataprovider.database.pedido.documents.PedidoDocument;
 import com.fiap.lanchonete.domain.PedidoDomain;
 
 @Mapper(componentModel = "spring")

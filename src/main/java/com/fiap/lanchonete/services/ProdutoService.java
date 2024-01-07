@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.fiap.lanchonete.commons.type.CategoriaProduto;
 import com.fiap.lanchonete.controller.dto.ProdutoDTO;
 import com.fiap.lanchonete.domain.ProdutoDomain;
-import com.fiap.lanchonete.services.gateways.ProdutoGateway;
 
 @Service
 public class ProdutoService {

@@ -3,12 +3,12 @@ package com.fiap.lanchonete.dataprovider.database.produto;
 import java.util.List;
 import java.util.UUID;
 
+import com.fiap.lanchonete.dataprovider.database.produto.repository.ProdutoRepository;
+import com.fiap.lanchonete.dataprovider.database.produto.mapper.ProdutoDocumentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fiap.lanchonete.commons.exception.NotFoundException;
 import com.fiap.lanchonete.commons.type.CategoriaProduto;
-import com.fiap.lanchonete.dataprovider.database.produto.mapper.ProdutoDocumentMapper;
-import com.fiap.lanchonete.dataprovider.database.produto.repository.ProdutoRepository;
 import com.fiap.lanchonete.domain.ProdutoDomain;
 import com.fiap.lanchonete.services.gateways.ProdutoGateway;
 import org.springframework.stereotype.Component;

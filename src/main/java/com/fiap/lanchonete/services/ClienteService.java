@@ -1,6 +1,6 @@
 package com.fiap.lanchonete.services;
 
-import com.fiap.lanchonete.dataprovider.database.cliente.ClienteDataProvider;
+import com.fiap.lanchonete.dataprovider.database.ClienteDataProvider;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

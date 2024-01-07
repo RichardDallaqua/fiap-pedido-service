@@ -8,7 +8,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.UUID;
 
-import com.fiap.lanchonete.dataprovider.database.cliente.ClienteDataProvider;
+import com.fiap.lanchonete.commons.exception.PaymentNotApprovedException;
+import com.fiap.lanchonete.dataprovider.database.ClienteDataProvider;
 import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
 import com.fiap.lanchonete.dataprovider.database.produto.ProdutoDataProvider;
 import org.junit.jupiter.api.Assertions;
@@ -86,7 +87,7 @@ public class PedidoServiceTest {
         PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
         pedidoSalvo.setId(idPedido);
         pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
-        pedidoSalvo.getProdutoList().add(produto);
+        pedidoSalvo.getListaProdutos().add(produto);
         pedidoSalvo.setQuantidadeTotalDeItems(1);
         pedidoSalvo.setValorTotalDaCompra(BigDecimal.valueOf(10.0));
 
@@ -103,7 +104,7 @@ public class PedidoServiceTest {
         Assertions.assertNotNull(pedidoAtualizado);
         Assertions.assertEquals(pedidoSalvo.getId(), pedidoAtualizado.getId());
         Assertions.assertEquals(StatusPedido.ABERTO, pedidoAtualizado.getStatusPedido());
-        Assertions.assertEquals(1, pedidoAtualizado.getProdutoList().size());
+        Assertions.assertEquals(1, pedidoAtualizado.getListaProdutos().size());
         Assertions.assertEquals(1, pedidoAtualizado.getQuantidadeTotalDeItems());
         Assertions.assertEquals(BigDecimal.valueOf(10.0), pedidoAtualizado.getValorTotalDaCompra());
 
@@ -145,7 +146,7 @@ public class PedidoServiceTest {
         PedidoDomain pedidoSalvo = Fixture.PedidoFixture.criarPedido();
         pedidoSalvo.setId(idPedido);
         pedidoSalvo.setStatusPedido(StatusPedido.ABERTO);
-        pedidoSalvo.getProdutoList().add(produto);
+        pedidoSalvo.getListaProdutos().add(produto);
         pedidoSalvo.setQuantidadeTotalDeItems(1);
         pedidoSalvo.setValorTotalDaCompra(BigDecimal.valueOf(10.0));
 

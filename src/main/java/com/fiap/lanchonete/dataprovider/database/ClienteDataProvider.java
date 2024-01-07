@@ -1,13 +1,12 @@
-package com.fiap.lanchonete.dataprovider.database.cliente;
+package com.fiap.lanchonete.dataprovider.database;
 
 import java.util.UUID;
 
+import com.fiap.lanchonete.dataprovider.database.cliente.mapper.ClienteDocumentMapper;
+import com.fiap.lanchonete.dataprovider.database.cliente.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fiap.lanchonete.commons.exception.NotFoundException;
-import com.fiap.lanchonete.dataprovider.database.cliente.documents.ClienteDocument;
-import com.fiap.lanchonete.dataprovider.database.cliente.mapper.ClienteDocumentMapper;
-import com.fiap.lanchonete.dataprovider.database.cliente.repository.ClienteRepository;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.services.gateways.ClienteGateway;
 import org.springframework.stereotype.Component;
