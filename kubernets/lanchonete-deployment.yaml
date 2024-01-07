@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lanchonete-deployment
+  labels:
+    app: fiap-lanchonete-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fiap-lanchonete-service
+  template:
+    metadata:
+      labels:
+        app: fiap-lanchonete-service
+    spec:
+      containers:
+        - name: fiap-lanchonete-service
+          image: fiap-lanchonete-service-lanchonete:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: lanchonete-config
+
