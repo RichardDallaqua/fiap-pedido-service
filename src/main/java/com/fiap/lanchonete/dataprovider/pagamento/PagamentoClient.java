@@ -18,9 +18,9 @@ public class PagamentoClient {
     private String url;
     RestTemplate restTemplate;
 
-    public void realizarPagamento(){
-        restTemplate.exchange(url, HttpMethod.PUT, );
-
-    }
+//    public void realizarPagamento(){
+//        restTemplate.exchange(url, HttpMethod.PUT, );
+//
+//    }
 
 }
