@@ -18,7 +18,7 @@ public class ClienteService {
         return cliente;
     }
 
-    public ClienteDomain buscarClientePorId(UUID id) throws Exception {
+    public ClienteDomain buscarClientePorId(UUID id) {
         return clienteDataProvider.findById(id);
     }
 }

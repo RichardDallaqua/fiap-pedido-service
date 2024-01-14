@@ -23,10 +23,10 @@ Funcionalidade: Funcionalidades do Pedido Controller
     Quando o usuário solicita a listagem de todos os pedidos
     Então a lista de pedidos é retornada com sucesso
 
-  Cenário: Alterar Status Pagamento
+  Cenário: Buscar Status Pagamento
     Dado um pedido existente
-    Quando o usuário solicita a alteração do status de pagamento do pedido
-    Então o status de pagamento é alterado com sucesso
+    Quando o usuário solicita a busca do status de pagamento do pedido
+    Então o status de pagamento é retornado com sucesso
 
   Cenário: Listar Dados do Pedido
     Dado um pedido existente

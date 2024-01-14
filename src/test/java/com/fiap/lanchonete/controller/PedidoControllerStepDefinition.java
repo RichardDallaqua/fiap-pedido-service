@@ -1,16 +1,16 @@
 package com.fiap.lanchonete.controller;
 
+import com.fiap.lanchonete.commons.type.StatusPagamento;
+import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.PedidoService;
 import io.cucumber.java.it.Quando;
 import io.cucumber.java.pt.Dado;
-import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Então;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.http.HttpStatus;
@@ -33,6 +33,8 @@ class PedidoControllerStepDefinition {
     private List<PedidoDomain> pedidos;
     private ResponseEntity<PedidoDomain> responseEntity;
     private ResponseEntity<List<PedidoDomain>> responseEntityPedidos;
+    private ResponseEntity<StatusPagamento> statusPagamentoResponseEntity;
+    private ResponseEntity<Void> voidResponseEntity;
     private UUID idPedido;
     private UUID idProduto;
     private String auth;
@@ -130,6 +132,60 @@ class PedidoControllerStepDefinition {
         pedidos_existentes();
         o_usuário_solicita_a_listagem_de_todos_os_pedidos();
         a_lista_de_pedidos_é_retornada_com_sucesso();
+    }
+
+    @Quando("o usuário solicita a busca do status de pagamento do pedido")
+    public void o_usuário_solicita_a_busca_do_status_de_pagamento_do_pedido() {
+        when(pedidoService.buscarStatusPagamento(idPedido)).thenReturn(StatusPagamento.PAGAMENTO_APROVADO);
+        statusPagamentoResponseEntity = controller.buscarStatusPagamento(idPedido);
+    }
+    @Então("o status de pagamento é retornado com sucesso")
+    public void o_status_de_pagamento_é_retornado_com_sucesso() {
+        Assert.assertEquals(HttpStatus.OK, statusPagamentoResponseEntity.getStatusCode());
+    }
+
+    @Test
+    public void test05(){
+        um_usuário_autorizado();
+        um_pedido_existente();
+        o_usuário_solicita_a_busca_do_status_de_pagamento_do_pedido();
+        o_status_de_pagamento_é_retornado_com_sucesso();
+    }
+
+    @Quando("o usuário solicita a listagem dos detalhes do pedido")
+    public void o_usuário_solicita_a_listagem_dos_detalhes_do_pedido() {
+        when(pedidoService.listarDadosDoPedido(idPedido)).thenReturn(criarPedido());
+        responseEntity = controller.listarDadosPedido(idPedido);
+    }
+    @Então("os detalhes do pedido são retornados com sucesso")
+    public void os_detalhes_do_pedido_são_retornados_com_sucesso() {
+        Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void test06(){
+        um_usuário_autorizado();
+        um_pedido_existente();
+        o_usuário_solicita_a_listagem_dos_detalhes_do_pedido();
+        os_detalhes_do_pedido_são_retornados_com_sucesso();
+    }
+
+    @Quando("o usuário solicita a alteração do status do pedido")
+    public void o_usuário_solicita_a_alteração_do_status_do_pedido() {
+        doNothing().when(pedidoService).alterarStatusPedido(idPedido, StatusPedido.PREPARANDO_PEDIDO);
+        voidResponseEntity = controller.alterarStatus(idPedido, StatusPedido.PREPARANDO_PEDIDO);
+    }
+    @Então("o status do pedido é alterado com sucesso")
+    public void o_status_do_pedido_é_alterado_com_sucesso() {
+        Assert.assertEquals(204, voidResponseEntity.getStatusCode().value());
+    }
+
+    @Test
+    public void test07(){
+        um_usuário_autorizado();
+        um_pedido_existente();
+        o_usuário_solicita_a_alteração_do_status_do_pedido();
+        o_status_do_pedido_é_alterado_com_sucesso();
     }
 
 }

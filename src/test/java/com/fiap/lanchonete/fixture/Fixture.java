@@ -34,13 +34,12 @@ public class Fixture {
 
     public class ClienteFixture {
         public static ClienteDomain criarClientePadrao() {
-            return ClienteDomain.builder().id(UUID.randomUUID()).nome("Richard Dallaqua")
+            return ClienteDomain.builder().id(UUID.randomUUID()).nome("John Doe")
                     .cpf(new CPFDomain("02366792018")).telefone("1234567890").dataCadastro(LocalDate.of(1990, 1, 1))
                     .build();
         }
 
     }
-
 
     public class ClienteDTOFixture {
         public static ClienteDTO criarClienteDTOPadrao() {

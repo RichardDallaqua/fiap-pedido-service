@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"classpath:features/Pedido.feature"},
+        features = {"classpath:features"},
         glue = {"com.fiap.lanchonete.controller"})
 public class RunCucumberTest {
 }

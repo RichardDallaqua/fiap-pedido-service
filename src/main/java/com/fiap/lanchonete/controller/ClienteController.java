@@ -26,7 +26,7 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteDomain> obterClientePorId(@PathVariable("id") UUID id) throws Exception {
+    public ResponseEntity<ClienteDomain> obterClientePorId(@PathVariable("id") UUID id) {
         ClienteDomain cliente = clienteService.buscarClientePorId(id);
 
         if (cliente != null) {

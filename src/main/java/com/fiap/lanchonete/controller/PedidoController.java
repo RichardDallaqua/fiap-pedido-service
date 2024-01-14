@@ -44,7 +44,7 @@ public class PedidoController {
     }
 
     @GetMapping("/{idPedido}/statusPagamento")
-    public ResponseEntity<StatusPagamento> alterarStatus(@PathVariable("idPedido") UUID idPedido) {
+    public ResponseEntity<StatusPagamento> buscarStatusPagamento(@PathVariable("idPedido") UUID idPedido) {
         return ResponseEntity.ok(pedidoService.buscarStatusPagamento(idPedido));
     }
 
