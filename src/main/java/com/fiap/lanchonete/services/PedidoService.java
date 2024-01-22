@@ -11,6 +11,7 @@ import com.fiap.lanchonete.dataprovider.database.produto.ProdutoDataProvider;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.domain.ProdutoDomain;
+import com.fiap.lanchonete.services.gateways.PagamentoGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,9 @@ public class PedidoService {
 
     @Autowired
     private ProdutoDataProvider produtoGateway;
+
+    @Autowired
+    private PagamentoGateway pagamentoGateway;
 
     public PedidoDomain iniciarPedido(String authorization) {
         String cpf = JwtDecode.getCPFFromJWT(authorization);
@@ -75,10 +79,6 @@ public class PedidoService {
         return pedidoGateway.findById(idPedido);
     }
 
-    public StatusPagamento buscarStatusPagamento(UUID idPedido) {
-        return pedidoGateway.findById(idPedido).getStatusPagamento();
-    }
-
     public void alterarStatusPedido(UUID id, StatusPedido statusPedido) {
         PedidoDomain pedido = pedidoGateway.findById(id);
 
@@ -93,8 +93,13 @@ public class PedidoService {
         pedidoGateway.save(pedido);
     }
 
-    public void realizarPagamento(){
+    public byte[] gerarQrCode(final UUID id){
+        return pagamentoGateway.gerarQrCode(id);
+    }
 
+    public StatusPagamento consultarStatusPagamento(final UUID idPedido){
+        final String statusPagamento = pagamentoGateway.consultarStatusPagamento(idPedido);
+        return StatusPagamento.valueOf(statusPagamento);
     }
 
 }

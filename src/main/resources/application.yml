@@ -18,4 +18,4 @@ server:
     context-path: /lanchonete
 
 host:
-  payment: http://localhost:8080/pagamento
+  payment: http://localhost:8080/fiap-payments/api/v1/payments

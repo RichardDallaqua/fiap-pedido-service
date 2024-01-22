@@ -136,7 +136,7 @@ class PedidoControllerStepDefinition {
 
     @Quando("o usuário solicita a busca do status de pagamento do pedido")
     public void o_usuário_solicita_a_busca_do_status_de_pagamento_do_pedido() {
-        when(pedidoService.buscarStatusPagamento(idPedido)).thenReturn(StatusPagamento.PAGAMENTO_APROVADO);
+        when(pedidoService.consultarStatusPagamento(idPedido)).thenReturn(StatusPagamento.PAGAMENTO_APROVADO);
         statusPagamentoResponseEntity = controller.buscarStatusPagamento(idPedido);
     }
     @Então("o status de pagamento é retornado com sucesso")

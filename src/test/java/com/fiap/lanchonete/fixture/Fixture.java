@@ -18,7 +18,7 @@ public class Fixture {
     public class ProdutoFixture {
 
         public static ProdutoDomain createProduto() {
-            return ProdutoDomain.builder().id(UUID.randomUUID()).nome("Produto Teste")
+            return ProdutoDomain.builder().id(UUID.fromString("875d85d9-d93e-4b89-9458-cb68684b1095")).nome("Produto Teste")
                     .descricao("Descrição do Produto Teste").preco(new BigDecimal("9.99"))
                     .categoria(CategoriaProduto.BEBIDA).build();
         }

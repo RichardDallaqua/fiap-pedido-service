@@ -8,17 +8,12 @@ import com.fiap.lanchonete.services.ClienteService;
 import io.cucumber.java.it.Quando;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Então;
-import io.cucumber.junit.platform.engine.Cucumber;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -27,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @MockitoSettings(strictness = Strictness.LENIENT)
-class ClienteControllerTest {
+class ClienteControllerStepDefinition {
 
     @Mock
     private ClienteService clienteService;

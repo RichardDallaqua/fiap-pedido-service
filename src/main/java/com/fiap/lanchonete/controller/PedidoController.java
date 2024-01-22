@@ -5,7 +5,6 @@ import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.PedidoService;
 
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,11 +42,6 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoService.listarPedidosNaoFinalizados());
     }
 
-    @GetMapping("/{idPedido}/statusPagamento")
-    public ResponseEntity<StatusPagamento> buscarStatusPagamento(@PathVariable("idPedido") UUID idPedido) {
-        return ResponseEntity.ok(pedidoService.buscarStatusPagamento(idPedido));
-    }
-
     @GetMapping("/{idPedido}/buscar")
     public ResponseEntity<PedidoDomain> listarDadosPedido(@PathVariable("idPedido") UUID idPedido) {
         return ResponseEntity.ok(pedidoService.listarDadosDoPedido(idPedido));
@@ -60,10 +54,14 @@ public class PedidoController {
         return ResponseEntity.noContent().build();
     }
 
-    public void realizarPagamento(){
-
+    @PostMapping("/{idPedido}/gerarQrCode")
+    public ResponseEntity<byte[]> realizarPagamento(@PathVariable("idPedido") UUID idPedido){
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.gerarQrCode(idPedido));
     }
 
-    //#001: criar endpoint que realiza pagamento chamando o serviço de pagamento
+    @GetMapping("/{idPedido}/statusPagamento")
+    public ResponseEntity<StatusPagamento> buscarStatusPagamento(@PathVariable("idPedido") UUID idPedido) {
+        return ResponseEntity.ok(pedidoService.consultarStatusPagamento(idPedido));
+    }
 
 }
