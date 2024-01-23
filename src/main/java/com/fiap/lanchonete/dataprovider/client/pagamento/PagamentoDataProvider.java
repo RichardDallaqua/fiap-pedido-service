@@ -8,11 +8,13 @@ import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.gateways.PagamentoGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Component
 public class PagamentoDataProvider implements PagamentoGateway {
 
     private final PagamentoClient client;
