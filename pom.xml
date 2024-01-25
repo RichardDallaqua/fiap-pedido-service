@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fiap</groupId>
-	<artifactId>lanchonete</artifactId>
+	<artifactId>pedido</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>lanchonete</name>
 	<description>Aplicativo para curso de engenharia de software</description>
