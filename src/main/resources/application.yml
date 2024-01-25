@@ -15,7 +15,7 @@ spring:
 server:
   port: 5000
   servlet:
-    context-path: /lanchonete
+    context-path: /pedido-ms
 
 host:
   payment: http://localhost:8080/fiap-payments/api/v1/payments
