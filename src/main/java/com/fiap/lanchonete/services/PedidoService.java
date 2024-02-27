@@ -93,8 +93,8 @@ public class PedidoService {
         pedidoGateway.save(pedido);
     }
 
-    public byte[] gerarQrCode(final UUID id){
-        return pagamentoGateway.gerarQrCode(id);
+    public void gerarQrCode(final UUID id){
+        pagamentoGateway.gerarQrCode(id);
     }
 
     public StatusPagamento consultarStatusPagamento(final UUID idPedido){

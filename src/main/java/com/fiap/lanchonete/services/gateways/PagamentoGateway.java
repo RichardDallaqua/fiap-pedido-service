@@ -6,7 +6,7 @@ import java.util.UUID;
 @Component
 public interface PagamentoGateway {
 
-    byte[] gerarQrCode(final UUID id);
+    void gerarQrCode(final UUID id);
 
     String consultarStatusPagamento(final UUID idPedido);
 

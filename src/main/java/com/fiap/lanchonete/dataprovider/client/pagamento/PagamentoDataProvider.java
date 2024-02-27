@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class PagamentoDataProvider implements PagamentoGateway {
+public class PagamentoDataProvider  {
 
     private final PagamentoClient client;
     private final PedidoDataProvider pedidoDataProvider;
-    @Override
+
     public byte[] gerarQrCode(final UUID id) {
         var pedido = pedidoDataProvider.findById(id);
 
