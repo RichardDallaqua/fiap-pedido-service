@@ -2,6 +2,7 @@ package com.fiap.lanchonete.controller;
 
 import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.commons.type.StatusPedido;
+import com.fiap.lanchonete.dataprovider.producer.PagamentoProducer;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.PedidoService;
 
@@ -19,6 +20,15 @@ public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
+
+    @Autowired
+    private PagamentoProducer producer;
+
+    @PostMapping
+    public ResponseEntity<String> teste() {
+        producer.send();
+        return ResponseEntity.ok("Foi");
+    }
 
     @PostMapping
     public ResponseEntity<PedidoDomain> iniciarPedido(@RequestHeader String authorization) {

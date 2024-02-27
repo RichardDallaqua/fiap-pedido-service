@@ -8,9 +8,10 @@ spring:
   rabbitmq:
       host: ${RABBIT_HOST:localhost}
       port: 5672
-      username: ${RABBIT_USER:teste}
-      password: ${RABBIT_PASS:teste}
-
+      username: ${RABBIT_USER:guest}
+      password: ${RABBIT_PASS:guest}
+queue:
+  pagamento: pagamento
 
 server:
   port: 5000
