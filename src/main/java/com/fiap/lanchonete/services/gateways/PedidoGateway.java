@@ -14,4 +14,6 @@ public interface PedidoGateway {
     List<PedidoDomain> findAllExcept(List<StatusPedido> listStatusPedido);
 
     void save(PedidoDomain pedidoDomain);
+
+    List<PedidoDomain> findAllPedidosByClientes(String cpf);
 }

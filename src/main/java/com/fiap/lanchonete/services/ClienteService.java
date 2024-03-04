@@ -1,11 +1,12 @@
 package com.fiap.lanchonete.services;
 
-import com.fiap.lanchonete.dataprovider.database.ClienteDataProvider;
-import com.fiap.lanchonete.domain.ClienteDomain;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import com.fiap.lanchonete.dataprovider.database.ClienteDataProvider;
+import com.fiap.lanchonete.domain.ClienteDomain;
 
 @Service
 public class ClienteService {
@@ -20,5 +21,9 @@ public class ClienteService {
 
     public ClienteDomain buscarClientePorId(UUID id) {
         return clienteDataProvider.findById(id);
+    }
+
+    public void apagarDadosCliente(String cpf) {
+        clienteDataProvider.apagarDadosCliente(cpf);
     }
 }
