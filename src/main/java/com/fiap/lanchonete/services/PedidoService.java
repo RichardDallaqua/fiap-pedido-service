@@ -97,9 +97,8 @@ public class PedidoService {
         pagamentoGateway.gerarQrCode(id);
     }
 
-    public StatusPagamento consultarStatusPagamento(final UUID idPedido){
-        final String statusPagamento = pagamentoGateway.consultarStatusPagamento(idPedido);
-        return StatusPagamento.valueOf(statusPagamento);
-    }
+    public void realizaPagamento(final UUID idPedido){
+        pagamentoGateway.realizarPagamento(idPedido);
 
+    }
 }

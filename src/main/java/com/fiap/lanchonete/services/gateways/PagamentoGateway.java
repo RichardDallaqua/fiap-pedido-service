@@ -8,6 +8,6 @@ public interface PagamentoGateway {
 
     void gerarQrCode(final UUID id);
 
-    String consultarStatusPagamento(final UUID idPedido);
+    void realizarPagamento(final UUID id);
 
 }

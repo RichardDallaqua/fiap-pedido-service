@@ -32,4 +32,5 @@ public class PedidoDocument {
     private ClienteDocument cliente;
     private StatusPedido statusPedido;
     private StatusPagamento statusPagamento;
+    private byte[] qrCodePagamento;
 }
