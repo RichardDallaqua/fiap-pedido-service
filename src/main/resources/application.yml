@@ -14,6 +14,8 @@ queue01:
   gerar_qr_code: gerar_qr_code
 queue02:
   qr_code_gerado: qr_code_gerado
+queue03:
+  pagamento_concluido: pagamento_concluido
 
 server:
   port: 5000

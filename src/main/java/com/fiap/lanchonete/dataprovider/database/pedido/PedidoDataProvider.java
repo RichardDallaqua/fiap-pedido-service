@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fiap.lanchonete.dataprovider.database.pedido.mapper.PedidoDocumentMapper;
+import com.fiap.lanchonete.dataprovider.producer.PedidoProducer;
+import com.fiap.lanchonete.dataprovider.producer.dto.ProducaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fiap.lanchonete.commons.exception.NotFoundException;
@@ -22,6 +24,9 @@ public class PedidoDataProvider implements PedidoGateway {
 
     @Autowired
     private PedidoDocumentMapper pedidoDocumentMapper;
+
+    @Autowired
+    private PedidoProducer producer;
 
     @Override
     public PedidoDomain findByIdAndStatusPedido(UUID id, StatusPedido status) {
@@ -44,6 +49,14 @@ public class PedidoDataProvider implements PedidoGateway {
     public List<PedidoDomain> findAllExcept(List<StatusPedido> listStatusPedido) {
         return pedidoDocumentMapper.toDomainList(
                 pedidoRepository.findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO)));
+    }
+
+    @Override
+    public void enviaParaProducao(final UUID id) {
+        producer.pagamentoConcluido(ProducaoDTO.builder()
+                .idPedido(id)
+                .status("APROVADO")
+                .build());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.fiap.lanchonete.dataprovider.producer;
 
 import com.fiap.lanchonete.dataprovider.client.pagamento.dto.OrderInfoDTO;
+import com.fiap.lanchonete.dataprovider.producer.dto.ProducaoDTO;
 import com.fiap.lanchonete.dataprovider.producer.dto.RealizaPagamentoDTO;
 import com.google.gson.Gson;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class PagamentoProducer implements Producer{
+public class PedidoProducer implements Producer{
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -27,6 +28,17 @@ public class PagamentoProducer implements Producer{
 
     public void realizaPagamento(RealizaPagamentoDTO realizaPagamentoDTO) {
         rabbitTemplate.convertAndSend("realiza_pagamento", toRealizaPagamentoDTOMessage(realizaPagamentoDTO));
+    }
+
+    public void pagamentoConcluido(ProducaoDTO producaoDTO){
+        rabbitTemplate.convertAndSend("pagamento_concluido", toProducaoDTOMessage(producaoDTO));
+    }
+
+    public static String toProducaoDTOMessage(ProducaoDTO producaoDTO){
+        Map message = new HashMap<String, String>();
+        message.put("idPedido", producaoDTO.getIdPedido());
+        message.put("status", producaoDTO.getStatus());
+        return new Gson().toJson(message);
     }
 
     public static String toOrderInfoDTOMessage(OrderInfoDTO order){

@@ -5,6 +5,7 @@ import com.fiap.lanchonete.commons.exception.PaymentNotApprovedException;
 import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.commons.utils.JwtDecode;
+import com.fiap.lanchonete.controller.dto.PagamentoResponseDTO;
 import com.fiap.lanchonete.dataprovider.database.ClienteDataProvider;
 import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
 import com.fiap.lanchonete.dataprovider.database.produto.ProdutoDataProvider;
@@ -32,6 +33,7 @@ public class PedidoService {
 
     @Autowired
     private PagamentoGateway pagamentoGateway;
+
 
     public PedidoDomain iniciarPedido(String authorization) {
         String cpf = JwtDecode.getCPFFromJWT(authorization);
@@ -97,8 +99,22 @@ public class PedidoService {
         pagamentoGateway.gerarQrCode(id);
     }
 
-    public void realizaPagamento(final UUID idPedido){
-        pagamentoGateway.realizarPagamento(idPedido);
+    public void enviaPagamento(final UUID idPedido){
+        pagamentoGateway.enviaPagamento(idPedido);
+    }
+    
+    public void validaPagamento(final PagamentoResponseDTO pagamentoResponseDTO){
+        PedidoDomain pedido = pedidoGateway.findById(pagamentoResponseDTO.getIdPedido());
+        pedido.setStatusPagamento(pagamentoResponseDTO.getStatus());
+        pedidoGateway.save(pedido);
 
+        if(pagamentoResponseDTO.getStatus().equals(StatusPagamento.PAGAMENTO_APROVADO)){
+            alterarStatusPedido(pagamentoResponseDTO.getIdPedido(), StatusPedido.PREPARANDO_PEDIDO);
+            pedidoGateway.enviaParaProducao(pedido.getId());
+        }
+
+        if(pagamentoResponseDTO.getStatus().equals(StatusPagamento.PAGAMENTO_NEGADO)){
+            alterarStatusPedido(pagamentoResponseDTO.getIdPedido(), StatusPedido.CANCELADO);
+        }
     }
 }

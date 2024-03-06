@@ -62,7 +62,7 @@ public class PedidoController {
 
     @PostMapping("/{idPedido}/realizaPagamento")
     public ResponseEntity<StatusPagamento> realizaPagamento(@PathVariable("idPedido") UUID idPedido) {
-        pedidoService.realizaPagamento(idPedido);
+        pedidoService.enviaPagamento(idPedido);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
