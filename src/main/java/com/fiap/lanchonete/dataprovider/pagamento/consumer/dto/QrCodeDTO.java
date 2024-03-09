@@ -1,4 +1,4 @@
-package com.fiap.lanchonete.dataprovider.consumer.dto;
+package com.fiap.lanchonete.dataprovider.pagamento.consumer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

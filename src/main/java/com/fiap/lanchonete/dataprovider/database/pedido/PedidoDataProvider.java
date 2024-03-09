@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fiap.lanchonete.dataprovider.database.pedido.mapper.PedidoDocumentMapper;
-import com.fiap.lanchonete.dataprovider.producer.PedidoProducer;
-import com.fiap.lanchonete.dataprovider.producer.dto.ProducaoDTO;
+import com.fiap.lanchonete.dataprovider.pagamento.producer.PagamentoProducer;
+import com.fiap.lanchonete.dataprovider.pagamento.producer.dto.ProducaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fiap.lanchonete.commons.exception.NotFoundException;
@@ -26,7 +26,7 @@ public class PedidoDataProvider implements PedidoGateway {
     private PedidoDocumentMapper pedidoDocumentMapper;
 
     @Autowired
-    private PedidoProducer producer;
+    private PagamentoProducer producer;
 
     @Override
     public PedidoDomain findByIdAndStatusPedido(UUID id, StatusPedido status) {

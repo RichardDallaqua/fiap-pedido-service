@@ -1,4 +1,4 @@
-package com.fiap.lanchonete.dataprovider.client.pagamento.dto;
+package com.fiap.lanchonete.dataprovider.pagamento.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;

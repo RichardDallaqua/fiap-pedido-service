@@ -1,10 +1,11 @@
-package com.fiap.lanchonete.dataprovider.consumer;
+package com.fiap.lanchonete.dataprovider.pagamento.consumer;
 
 import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.controller.dto.PagamentoResponseDTO;
-import com.fiap.lanchonete.dataprovider.consumer.dto.QrCodeDTO;
+import com.fiap.lanchonete.dataprovider.pagamento.consumer.dto.QrCodeDTO;
 import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
 import com.fiap.lanchonete.services.PedidoService;
+import com.fiap.lanchonete.services.gateways.PagamentoConsumerGateway;
 import com.google.gson.Gson;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class PedidoConsumer {
+public class PagamentoConsumer implements PagamentoConsumerGateway {
 
     @Autowired
     private PedidoService pedidoService;
@@ -36,7 +37,7 @@ public class PedidoConsumer {
         pedidoDataProvider.save(pedido);
     }
 
-    @RabbitListener(queues = {"${queue03.pagamento_concluido}"})
+    @RabbitListener(queues = {"${queue04.pagamento_concluido}"})
     public void receivePagamentoConcluido(@Payload String message){
         HashMap<String, String> mensagem = gson.fromJson(message, HashMap.class);
         var pagamentoResponseDTO = fromPagamentoMessage(mensagem);
