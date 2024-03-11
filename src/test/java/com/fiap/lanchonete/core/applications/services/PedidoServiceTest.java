@@ -3,9 +3,12 @@ package com.fiap.lanchonete.core.applications.services;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
 import com.fiap.lanchonete.commons.exception.PaymentNotApprovedException;
@@ -178,5 +181,12 @@ public class PedidoServiceTest {
         pedidoService.listarPedidosNaoFinalizados();
         Mockito.verify(pedidoGateway)
                 .findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO));
+    }
+
+    @Test
+    public void testRemoverClientedosPedidos() {
+        Mockito.when(pedidoGateway.findAllPedidosByClientes(any())).thenReturn(Collections.singletonList(Fixture.PedidoFixture.criarPedido()));
+        pedidoService.removerDadosSensiveisDoCliente(any());
+        verify(pedidoGateway, times(1)).save(any());
     }
 }

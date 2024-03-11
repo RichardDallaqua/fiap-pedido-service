@@ -19,5 +19,6 @@ public interface PedidoRepository extends MongoRepository<PedidoDocument, UUID> 
 
     Optional<PedidoDocument> findByIdAndStatusPedido(UUID id, StatusPedido statusPedido);
 
+    @Query("{ 'cliente.cpf.numero' : ?0 }")
     List<PedidoDocument> findByClienteCpf(String cpf);
 }

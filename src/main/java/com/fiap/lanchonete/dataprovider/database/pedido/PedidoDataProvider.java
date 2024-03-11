@@ -48,7 +48,7 @@ public class PedidoDataProvider implements PedidoGateway {
 
     @Override
     public List<PedidoDomain> findAllPedidosByClientes(String cpf) {
-        return findAllPedidosByClientes(cpf);
+        return pedidoDocumentMapper.toDomainList(pedidoRepository.findByClienteCpf(cpf));
     }
 
 }

@@ -49,8 +49,8 @@ public class ClienteController {
                         .telefone(clienteDTO.getTelefone()).dataCadastro(LocalDate.now()).build()));
     }
 
-    @DeleteMapping
-    public ResponseEntity<ClienteDomain> removerDadosClientes(@PathVariable("id") String cpf) {
+    @DeleteMapping("/{cpf}")
+    public ResponseEntity<ClienteDomain> removerDadosClientes(@PathVariable("cpf") String cpf) {
         clienteService.apagarDadosCliente(cpf);
         pedidService.removerDadosSensiveisDoCliente(cpf);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();

@@ -57,6 +57,9 @@ public class PedidoService {
     public PedidoDomain adicionarProdutosPedido(UUID idPedido, UUID idProduto) {
         PedidoDomain pedido = pedidoDataProvider.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO);
         ProdutoDomain produto = produtoGateway.findById(idProduto);
+        if (pedido.getListaProdutos() == null) {
+            pedido.setListaProdutos(new ArrayList<>());
+        }
         pedido.getListaProdutos().add(produto);
         pedido.setQuantidadeTotalDeItems(pedido.getListaProdutos().size());
         pedido.setValorTotalDaCompra(pedido.getValorTotalDaCompra().add(produto.getPreco()));

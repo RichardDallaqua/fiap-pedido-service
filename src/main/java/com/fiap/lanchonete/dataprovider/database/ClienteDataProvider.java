@@ -2,6 +2,7 @@ package com.fiap.lanchonete.dataprovider.database;
 
 import java.util.UUID;
 
+import com.fiap.lanchonete.dataprovider.database.cliente.documents.ClienteDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +41,7 @@ public class ClienteDataProvider implements ClienteGateway {
 
     @Override
     public void apagarDadosCliente(String cpf) {
-        clienteRepository.deleteByCpf(cpf);
+        clienteRepository.deleteByCpfCliente(cpf);
     }
 
 }
