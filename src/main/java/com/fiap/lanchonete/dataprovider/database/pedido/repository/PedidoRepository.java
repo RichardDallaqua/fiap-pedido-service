@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.fiap.lanchonete.dataprovider.database.pedido.documents.PedidoDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.fiap.lanchonete.commons.type.StatusPedido;
+import com.fiap.lanchonete.dataprovider.database.pedido.documents.PedidoDocument;
 
 @Repository
 public interface PedidoRepository extends MongoRepository<PedidoDocument, UUID> {
@@ -18,4 +18,7 @@ public interface PedidoRepository extends MongoRepository<PedidoDocument, UUID> 
     List<PedidoDocument> findAllExcept(List<StatusPedido> statusPedidos);
 
     Optional<PedidoDocument> findByIdAndStatusPedido(UUID id, StatusPedido statusPedido);
+
+    @Query("{ 'cliente.cpf.numero' : ?0 }")
+    List<PedidoDocument> findByClienteCpf(String cpf);
 }

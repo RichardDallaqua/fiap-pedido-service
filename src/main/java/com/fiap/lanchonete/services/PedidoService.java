@@ -1,5 +1,15 @@
 package com.fiap.lanchonete.services;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.fiap.lanchonete.commons.exception.NotFoundException;
 import com.fiap.lanchonete.commons.exception.PaymentNotApprovedException;
 import com.fiap.lanchonete.commons.type.StatusPagamento;
@@ -12,17 +22,12 @@ import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.domain.ProdutoDomain;
 import com.fiap.lanchonete.services.gateways.PagamentoGateway;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 @Service
 public class PedidoService {
 
     @Autowired
-    private PedidoDataProvider pedidoGateway;
+    private PedidoDataProvider pedidoDataProvider;
 
     @Autowired
     private ClienteDataProvider clienteGateway;
@@ -45,42 +50,45 @@ public class PedidoService {
             pedido.setCliente(cliente);
         }
         pedido.setStatusPedido(StatusPedido.ABERTO);
-        pedidoGateway.save(pedido);
+        pedidoDataProvider.save(pedido);
         return pedido;
     }
 
     public PedidoDomain adicionarProdutosPedido(UUID idPedido, UUID idProduto) {
-        PedidoDomain pedido = pedidoGateway.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO);
+        PedidoDomain pedido = pedidoDataProvider.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO);
         ProdutoDomain produto = produtoGateway.findById(idProduto);
+        if (pedido.getListaProdutos() == null) {
+            pedido.setListaProdutos(new ArrayList<>());
+        }
         pedido.getListaProdutos().add(produto);
         pedido.setQuantidadeTotalDeItems(pedido.getListaProdutos().size());
         pedido.setValorTotalDaCompra(pedido.getValorTotalDaCompra().add(produto.getPreco()));
-        pedidoGateway.save(pedido);
+        pedidoDataProvider.save(pedido);
         return pedido;
     }
 
     public PedidoDomain removerProdutosPedido(UUID idPedido, UUID idProduto) {
-        PedidoDomain pedido = pedidoGateway.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO);
+        PedidoDomain pedido = pedidoDataProvider.findByIdAndStatusPedido(idPedido, StatusPedido.ABERTO);
         ProdutoDomain produtoToRemove = pedido.getListaProdutos().stream().filter(x -> x.getId().equals(idProduto))
                 .findFirst().orElseThrow(() -> new NotFoundException("Produto não encontrado no pedido"));
         pedido.getListaProdutos().remove(produtoToRemove);
         pedido.setQuantidadeTotalDeItems(pedido.getListaProdutos().size());
         pedido.setValorTotalDaCompra(pedido.getValorTotalDaCompra().subtract(produtoToRemove.getPreco()));
-        pedidoGateway.save(pedido);
+        pedidoDataProvider.save(pedido);
 
         return pedido;
     }
 
     public List<PedidoDomain> listarPedidosNaoFinalizados() {
-        return pedidoGateway.findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO));
+        return pedidoDataProvider.findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO));
     }
 
     public PedidoDomain listarDadosDoPedido(UUID idPedido) {
-        return pedidoGateway.findById(idPedido);
+        return pedidoDataProvider.findById(idPedido);
     }
 
     public void alterarStatusPedido(UUID id, StatusPedido statusPedido) {
-        PedidoDomain pedido = pedidoGateway.findById(id);
+        PedidoDomain pedido = pedidoDataProvider.findById(id);
 
         if (!statusPedido.equals(StatusPedido.CANCELADO)
                 && pedido.getStatusPagamento().equals(StatusPagamento.AGUARDANDO_PAGAMENTO)) {
@@ -90,16 +98,24 @@ public class PedidoService {
         StatusPedido.verifyOrderOnUpdate(pedido.getStatusPedido(), statusPedido);
 
         pedido.setStatusPedido(statusPedido);
-        pedidoGateway.save(pedido);
+        pedidoDataProvider.save(pedido);
     }
 
-    public void gerarQrCode(final UUID id){
+    public void gerarQrCode(final UUID id) {
         pagamentoGateway.gerarQrCode(id);
     }
 
-    public StatusPagamento consultarStatusPagamento(final UUID idPedido){
+    public StatusPagamento consultarStatusPagamento(final UUID idPedido) {
         final String statusPagamento = pagamentoGateway.consultarStatusPagamento(idPedido);
         return StatusPagamento.valueOf(statusPagamento);
+    }
+
+    public void removerDadosSensiveisDoCliente(String cpf) {
+        List<PedidoDomain> listaPedidos = pedidoDataProvider.findAllPedidosByClientes(cpf);
+        listaPedidos.forEach(pedido -> {
+            pedido.setCliente(null);
+            pedidoDataProvider.save(pedido);
+        });
     }
 
 }

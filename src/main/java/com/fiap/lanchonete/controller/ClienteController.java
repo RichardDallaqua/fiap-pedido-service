@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.fiap.lanchonete.controller.dto.ClienteDTO;
 import com.fiap.lanchonete.domain.CPFDomain;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.services.ClienteService;
+import com.fiap.lanchonete.services.PedidoService;
 
 @RestController
 @RequestMapping("api/v1/clientes")
@@ -24,6 +26,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private PedidoService pedidService;
 
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDomain> obterClientePorId(@PathVariable("id") UUID id) {
@@ -42,5 +47,12 @@ public class ClienteController {
                 .body(clienteService.cadastrarCliente(ClienteDomain.builder().id(UUID.randomUUID())
                         .nome(clienteDTO.getNome()).cpf(new CPFDomain(clienteDTO.getCpf()))
                         .telefone(clienteDTO.getTelefone()).dataCadastro(LocalDate.now()).build()));
+    }
+
+    @DeleteMapping("/{cpf}")
+    public ResponseEntity<ClienteDomain> removerDadosClientes(@PathVariable("cpf") String cpf) {
+        clienteService.apagarDadosCliente(cpf);
+        pedidService.removerDadosSensiveisDoCliente(cpf);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }

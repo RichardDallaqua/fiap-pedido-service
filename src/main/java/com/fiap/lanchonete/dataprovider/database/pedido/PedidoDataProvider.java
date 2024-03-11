@@ -4,15 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import com.fiap.lanchonete.dataprovider.database.pedido.mapper.PedidoDocumentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.fiap.lanchonete.commons.exception.NotFoundException;
 import com.fiap.lanchonete.commons.type.StatusPedido;
+import com.fiap.lanchonete.dataprovider.database.pedido.mapper.PedidoDocumentMapper;
 import com.fiap.lanchonete.dataprovider.database.pedido.repository.PedidoRepository;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.gateways.PedidoGateway;
-import org.springframework.stereotype.Component;
 
 @Component
 public class PedidoDataProvider implements PedidoGateway {
@@ -44,6 +44,11 @@ public class PedidoDataProvider implements PedidoGateway {
     public List<PedidoDomain> findAllExcept(List<StatusPedido> listStatusPedido) {
         return pedidoDocumentMapper.toDomainList(
                 pedidoRepository.findAllExcept(Arrays.asList(StatusPedido.PEDIDO_RETIRADO, StatusPedido.CANCELADO)));
+    }
+
+    @Override
+    public List<PedidoDomain> findAllPedidosByClientes(String cpf) {
+        return pedidoDocumentMapper.toDomainList(pedidoRepository.findByClienteCpf(cpf));
     }
 
 }

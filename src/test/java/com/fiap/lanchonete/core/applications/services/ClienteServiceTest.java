@@ -56,4 +56,11 @@ class ClienteServiceTest {
 
         Assertions.assertThrows(Exception.class, () -> clienteService.buscarClientePorId(clienteId));
     }
+
+    @Test
+    void testExlcuirClienteBaseDados() throws Exception {
+        clienteService.apagarDadosCliente(any());
+
+        verify(clienteDataProvider, times(1)).apagarDadosCliente(any());
+    }
 }
