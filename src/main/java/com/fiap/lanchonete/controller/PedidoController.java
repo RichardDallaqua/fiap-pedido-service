@@ -21,8 +21,8 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<PedidoDomain> iniciarPedido(@RequestHeader String authorization) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.iniciarPedido(authorization));
+    public ResponseEntity<PedidoDomain> iniciarPedido() {
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.iniciarPedido());
     }
 
     @PutMapping("/{idPedido}/adicionar/{idProduto}")

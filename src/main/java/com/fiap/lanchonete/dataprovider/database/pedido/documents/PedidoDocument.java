@@ -26,7 +26,7 @@ public class PedidoDocument {
 
     @Id
     private UUID id;
-    private List<ProdutoDocument> produtoList;
+    private List<ProdutoDocument> listaProdutos;
     private BigDecimal valorTotalDaCompra;
     private int quantidadeTotalDeItems;
     private ClienteDocument cliente;

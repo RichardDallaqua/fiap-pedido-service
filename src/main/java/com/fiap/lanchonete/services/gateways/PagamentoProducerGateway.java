@@ -5,7 +5,6 @@ import com.fiap.lanchonete.dataprovider.pagamento.producer.dto.ProducaoDTO;
 import com.fiap.lanchonete.dataprovider.pagamento.producer.dto.RealizaPagamentoDTO;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 @Component
 public interface PagamentoProducerGateway {
 
@@ -13,6 +12,6 @@ public interface PagamentoProducerGateway {
 
     void realizaPagamento(RealizaPagamentoDTO realizaPagamentoDTO);
 
-    void pagamentoConcluido(ProducaoDTO producaoDTO);
+    void confirmaProducao(ProducaoDTO producaoDTO);
 
 }

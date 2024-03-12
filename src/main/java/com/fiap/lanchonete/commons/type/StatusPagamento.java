@@ -5,7 +5,7 @@ import java.util.Arrays;
 import com.fiap.lanchonete.commons.exception.InvalidTypeException;
 
 public enum StatusPagamento {
-    AGUARDANDO_PAGAMENTO, PAGAMENTO_APROVADO, PAGAMENTO_NEGADO;
+    AGUARDANDO_PAGAMENTO, PAGAMENTO_APROVADO, PAGAMENTO_NEGADO, AWAITING, SUCCESS, ERROR, REFUSED;
 
     public static void existsInValues(String statusPagamento) {
         if (Arrays.stream(values()).noneMatch(x -> x.name().equalsIgnoreCase(statusPagamento))) {

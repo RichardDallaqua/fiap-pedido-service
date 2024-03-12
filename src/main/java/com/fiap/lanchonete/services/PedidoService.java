@@ -44,17 +44,17 @@ public class PedidoService {
     private PagamentoProducerGateway pagamentoGateway;
 
 
-    public PedidoDomain iniciarPedido(String authorization) {
-        String cpf = JwtDecode.getCPFFromJWT(authorization);
+    public PedidoDomain iniciarPedido() {
+//        String cpf = JwtDecode.getCPFFromJWT(authorization);
         PedidoDomain pedido = PedidoDomain.builder().id(UUID.randomUUID()).listaProdutos(new ArrayList<>())
                 .quantidadeTotalDeItems(0).valorTotalDaCompra(BigDecimal.ZERO)
                 .statusPagamento(StatusPagamento.AGUARDANDO_PAGAMENTO).build();
-        if (Objects.isNull(cpf) || cpf.isBlank()) {
-            pedido.setCliente(null);
-        } else {
-            ClienteDomain cliente = clienteGateway.findByCpf(cpf);
-            pedido.setCliente(cliente);
-        }
+//        if (Objects.isNull(cpf) || cpf.isBlank()) {
+//            pedido.setCliente(null);
+//        } else {
+//            ClienteDomain cliente = clienteGateway.findByCpf(cpf);
+//            pedido.setCliente(cliente);
+//        }
         pedido.setStatusPedido(StatusPedido.ABERTO);
         pedidoDataProvider.save(pedido);
         return pedido;
@@ -132,12 +132,12 @@ public class PedidoService {
         PedidoDomain pedido = pedidoDataProvider.findById(pagamentoResponseDTO.getIdPedido());
         pedido.setStatusPagamento(pagamentoResponseDTO.getStatus());
         pedidoDataProvider.save(pedido);
-        if(pagamentoResponseDTO.getStatus().equals(StatusPagamento.PAGAMENTO_APROVADO)){
-            alterarStatusPedido(pagamentoResponseDTO.getIdPedido(), StatusPedido.PREPARANDO_PEDIDO);
+        if(pagamentoResponseDTO.getStatus().equals(StatusPagamento.SUCCESS)){
+            alterarStatusPedido(pagamentoResponseDTO.getIdPedido(), StatusPedido.RECEBIDO);
             pedidoDataProvider.enviaParaProducao(pedido.getId());
         }
 
-        if(pagamentoResponseDTO.getStatus().equals(StatusPagamento.PAGAMENTO_NEGADO)){
+        if(pagamentoResponseDTO.getStatus().equals(StatusPagamento.REFUSED)){
             alterarStatusPedido(pagamentoResponseDTO.getIdPedido(), StatusPedido.CANCELADO);
         }
     }

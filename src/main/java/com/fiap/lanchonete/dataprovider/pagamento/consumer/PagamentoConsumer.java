@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -46,7 +47,7 @@ public class PagamentoConsumer implements PagamentoConsumerGateway {
 
     private static PagamentoResponseDTO fromPagamentoMessage(Map message){
         return PagamentoResponseDTO.builder()
-                .idPedido(UUID.fromString(message.get("idPedido").toString()))
+                .idPedido(UUID.fromString(message.get("orderIdentifier").toString()))
                 .status(StatusPagamento.valueOf(message.get("status").toString()))
                 .build();
     }
@@ -54,7 +55,7 @@ public class PagamentoConsumer implements PagamentoConsumerGateway {
     private static QrCodeDTO fromQrCodeMessage(Map message){
         return QrCodeDTO.builder()
                 .orderIdentifier(message.get("orderIdentifier").toString())
-                .qrCode((byte[]) message.get("qrCode"))
+                .qrCode((String.valueOf(message.get("qrCode")).getBytes(StandardCharsets.UTF_8)))
                 .build();
     }
 }

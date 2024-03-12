@@ -1,5 +1,6 @@
 package com.fiap.lanchonete.dataprovider.pagamento.producer;
 
+import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.dataprovider.pagamento.dto.OrderInfoDTO;
 import com.fiap.lanchonete.dataprovider.pagamento.producer.dto.ProducaoDTO;
 import com.fiap.lanchonete.dataprovider.pagamento.producer.dto.RealizaPagamentoDTO;
@@ -29,8 +30,8 @@ public class PagamentoProducer implements PagamentoProducerGateway {
     @Value("${queue03.realiza_pagamento}")
     private String realizaPagamentoQueue;
 
-    @Value("${queue04.pagamento_concluido}")
-    private String pagamentoConcluidoQueue;
+    @Value("${queue05.confirma_producao}")
+    private String confirmaProducaoQueue;
 
     @Override
     public void gerarQrCode(OrderInfoDTO order) {
@@ -41,8 +42,8 @@ public class PagamentoProducer implements PagamentoProducerGateway {
         rabbitTemplate.convertAndSend(realizaPagamentoQueue, toRealizaPagamentoDTOMessage(realizaPagamentoDTO));
     }
 
-    public void pagamentoConcluido(ProducaoDTO producaoDTO){
-        rabbitTemplate.convertAndSend(pagamentoConcluidoQueue, toProducaoDTOMessage(producaoDTO));
+    public void confirmaProducao(ProducaoDTO producaoDTO){
+        rabbitTemplate.convertAndSend(confirmaProducaoQueue, toProducaoDTOMessage(producaoDTO));
     }
 
     public static String toProducaoDTOMessage(ProducaoDTO producaoDTO){
@@ -64,7 +65,7 @@ public class PagamentoProducer implements PagamentoProducerGateway {
     public static String toRealizaPagamentoDTOMessage(RealizaPagamentoDTO realizaPagamentoDTO){
         Map message = new HashMap<String, String>();
         message.put("orderIdentifier", realizaPagamentoDTO.getOrderIdentifier());
-        message.put("status", realizaPagamentoDTO.getStatus());
+        message.put("status", StatusPagamento.AWAITING.name());
         return new Gson().toJson(message);
     }
 }

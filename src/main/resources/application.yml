@@ -18,6 +18,9 @@ queue03:
   realiza_pagamento: realiza_pagamento
 queue04:
   pagamento_concluido: pagamento_concluido
+queue05:
+  confirma_producao: confirma_producao
+
 
 server:
   port: 5000

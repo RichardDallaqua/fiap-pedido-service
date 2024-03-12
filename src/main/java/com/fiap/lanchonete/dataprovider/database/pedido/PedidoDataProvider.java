@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import com.fiap.lanchonete.commons.exception.NotFoundException;
 import com.fiap.lanchonete.commons.type.StatusPedido;
-import com.fiap.lanchonete.dataprovider.database.pedido.mapper.PedidoDocumentMapper;
 import com.fiap.lanchonete.dataprovider.database.pedido.repository.PedidoRepository;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.gateways.PedidoGateway;
@@ -54,9 +53,9 @@ public class PedidoDataProvider implements PedidoGateway {
 
     @Override
     public void enviaParaProducao(final UUID id) {
-        producer.pagamentoConcluido(ProducaoDTO.builder()
+        producer.confirmaProducao(ProducaoDTO.builder()
                 .idPedido(id)
-                .status("APROVADO")
+                .status("RECEBIDO")
                 .build());
     }
 
