@@ -11,4 +11,6 @@ public interface ClienteGateway {
     ClienteDomain findByCpf(String cpf);
 
     void save(ClienteDomain clienteDomain);
+
+    void apagarDadosCliente(String cpf);
 }

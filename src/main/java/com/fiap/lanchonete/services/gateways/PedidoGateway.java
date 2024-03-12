@@ -16,4 +16,6 @@ public interface PedidoGateway {
     void save(PedidoDomain pedidoDomain);
 
     void enviaParaProducao(final UUID id);
+
+    List<PedidoDomain> findAllPedidosByClientes(String cpf);
 }

@@ -8,13 +8,14 @@ import com.fiap.lanchonete.dataprovider.database.pedido.mapper.PedidoDocumentMap
 import com.fiap.lanchonete.dataprovider.pagamento.producer.PagamentoProducer;
 import com.fiap.lanchonete.dataprovider.pagamento.producer.dto.ProducaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.fiap.lanchonete.commons.exception.NotFoundException;
 import com.fiap.lanchonete.commons.type.StatusPedido;
+import com.fiap.lanchonete.dataprovider.database.pedido.mapper.PedidoDocumentMapper;
 import com.fiap.lanchonete.dataprovider.database.pedido.repository.PedidoRepository;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.services.gateways.PedidoGateway;
-import org.springframework.stereotype.Component;
 
 @Component
 public class PedidoDataProvider implements PedidoGateway {
@@ -57,6 +58,10 @@ public class PedidoDataProvider implements PedidoGateway {
                 .idPedido(id)
                 .status("APROVADO")
                 .build());
+    }
+
+    public List<PedidoDomain> findAllPedidosByClientes(String cpf) {
+        return pedidoDocumentMapper.toDomainList(pedidoRepository.findByClienteCpf(cpf));
     }
 
 }
