@@ -10,8 +10,14 @@ spring:
       port: 5672
       username: ${RABBIT_USER:guest}
       password: ${RABBIT_PASS:guest}
-queue:
-  pagamento: pagamento
+queue01:
+  gerar_qr_code: gerar_qr_code
+queue02:
+  qr_code_gerado: qr_code_gerado
+queue03:
+  realiza_pagamento: realiza_pagamento
+queue04:
+  pagamento_concluido: pagamento_concluido
 
 server:
   port: 5000

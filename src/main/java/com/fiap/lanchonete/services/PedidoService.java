@@ -5,18 +5,22 @@ import com.fiap.lanchonete.commons.exception.PaymentNotApprovedException;
 import com.fiap.lanchonete.commons.type.StatusPagamento;
 import com.fiap.lanchonete.commons.type.StatusPedido;
 import com.fiap.lanchonete.commons.utils.JwtDecode;
+import com.fiap.lanchonete.controller.dto.PagamentoResponseDTO;
 import com.fiap.lanchonete.dataprovider.database.ClienteDataProvider;
 import com.fiap.lanchonete.dataprovider.database.pedido.PedidoDataProvider;
 import com.fiap.lanchonete.dataprovider.database.produto.ProdutoDataProvider;
+import com.fiap.lanchonete.dataprovider.pagamento.dto.OrderInfoDTO;
+import com.fiap.lanchonete.dataprovider.pagamento.producer.dto.RealizaPagamentoDTO;
 import com.fiap.lanchonete.domain.ClienteDomain;
 import com.fiap.lanchonete.domain.PedidoDomain;
 import com.fiap.lanchonete.domain.ProdutoDomain;
-import com.fiap.lanchonete.services.gateways.PagamentoGateway;
+import com.fiap.lanchonete.services.gateways.PagamentoProducerGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -31,7 +35,8 @@ public class PedidoService {
     private ProdutoDataProvider produtoGateway;
 
     @Autowired
-    private PagamentoGateway pagamentoGateway;
+    private PagamentoProducerGateway pagamentoGateway;
+
 
     public PedidoDomain iniciarPedido(String authorization) {
         String cpf = JwtDecode.getCPFFromJWT(authorization);
@@ -94,12 +99,38 @@ public class PedidoService {
     }
 
     public void gerarQrCode(final UUID id){
-        pagamentoGateway.gerarQrCode(id);
+        var pedido = pedidoGateway.findById(id);
+        pagamentoGateway.gerarQrCode(OrderInfoDTO.builder()
+                        .title("Pedido de Lanchonete")
+                        .orderIdentifier(pedido.getId().toString())
+                        .items(pedido.getListaProdutos()
+                                .stream()
+                                .map(ProdutoDomain::getNome)
+                                .collect(Collectors.toList()))
+                        .totalAmount(pedido.getValorTotalDaCompra())
+                        .paymentStatus(StatusPagamento.AGUARDANDO_PAGAMENTO.name())
+                .build());
     }
 
-    public StatusPagamento consultarStatusPagamento(final UUID idPedido){
-        final String statusPagamento = pagamentoGateway.consultarStatusPagamento(idPedido);
-        return StatusPagamento.valueOf(statusPagamento);
+    public void enviaPagamento(final UUID idPedido){
+        pagamentoGateway.realizaPagamento(RealizaPagamentoDTO.builder()
+                        .orderIdentifier(idPedido.toString())
+                        .status(StatusPagamento.PAGAMENTO_APROVADO.name())
+                .build());
     }
+    
+    public void validaPagamento(final PagamentoResponseDTO pagamentoResponseDTO){
+        PedidoDomain pedido = pedidoGateway.findById(pagamentoResponseDTO.getIdPedido());
+        pedido.setStatusPagamento(pagamentoResponseDTO.getStatus());
+        pedidoGateway.save(pedido);
 
+        if(pagamentoResponseDTO.getStatus().equals(StatusPagamento.PAGAMENTO_APROVADO)){
+            alterarStatusPedido(pagamentoResponseDTO.getIdPedido(), StatusPedido.PREPARANDO_PEDIDO);
+            pedidoGateway.enviaParaProducao(pedido.getId());
+        }
+
+        if(pagamentoResponseDTO.getStatus().equals(StatusPagamento.PAGAMENTO_NEGADO)){
+            alterarStatusPedido(pagamentoResponseDTO.getIdPedido(), StatusPedido.CANCELADO);
+        }
+    }
 }

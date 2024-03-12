@@ -24,4 +24,5 @@ public class PedidoDomain {
     private ClienteDomain cliente;
     private StatusPedido statusPedido;
     private StatusPagamento statusPagamento;
+    private byte[] qrCodePagamento;
 }

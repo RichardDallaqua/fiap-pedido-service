@@ -55,14 +55,16 @@ public class PedidoController {
     }
 
     @PostMapping("/{idPedido}/gerarQrCode")
-    public ResponseEntity realizarPagamento(@PathVariable("idPedido") UUID idPedido){
+    public ResponseEntity gerarQrCodePagamento(@PathVariable("idPedido") UUID idPedido){
         pedidoService.gerarQrCode(idPedido);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
-    @GetMapping("/{idPedido}/statusPagamento")
-    public ResponseEntity<StatusPagamento> buscarStatusPagamento(@PathVariable("idPedido") UUID idPedido) {
-        return ResponseEntity.ok(pedidoService.consultarStatusPagamento(idPedido));
+    @PostMapping("/{idPedido}/realizaPagamento")
+    public ResponseEntity<StatusPagamento> realizaPagamento(@PathVariable("idPedido") UUID idPedido) {
+        pedidoService.enviaPagamento(idPedido);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+
 
 }
