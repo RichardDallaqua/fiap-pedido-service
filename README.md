@@ -62,3 +62,15 @@ Se você quiser contribuir para o desenvolvimento deste projeto, siga as etapas 
 # Licença
 
 Este projeto está licenciado sob a MIT License.
+
+# Arquitetura
+![FIAP](https://github.com/RichardDallaqua/fiap-pedido-service/assets/134017102/7a5e0689-849b-43e8-ad2f-ec891a55e39d)
+
+# Padrão SAGA Coreografada:
+
+O padrão SAGA escolhido para o fluxo de pagamento foi o Coreografado, com as seguintes justificativas:
+
+1) Menor complexidade para desenvolvimento, já que cada microsserviço fica responsável por uma parte da transação não havendo, portanto, a necessidade de adicionar um componente central;
+2) Como eles atuam de forma indepente isso gera maior flexibilidade para futuras evoluções nos microsserviços;
+3) Maior distribuição de carga durante a transação dos serviços porque a transação é processada em paralelo.
+
