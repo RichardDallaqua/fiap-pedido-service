@@ -13,7 +13,7 @@ public class RabbitConfig {
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setUri("amqps://b-4885be68-aa8d-41e7-82e6-71dc375cb847.mq.us-east-1.amazonaws.com:5671");
+        connectionFactory.setUri("amqps://b-d53c4a24-dce4-4c3d-b07e-ebb6fe7981a3.mq.us-east-2.amazonaws.com:5671");
         connectionFactory.setPort(5671);
         connectionFactory.setVirtualHost("rabbit");
         connectionFactory.setUsername("teste");
