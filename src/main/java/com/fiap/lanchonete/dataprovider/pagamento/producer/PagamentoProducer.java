@@ -21,16 +21,13 @@ public class PagamentoProducer implements PagamentoProducerGateway {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private Queue queue;
-
-    @Value("${queue01.gerar_qr_code}")
+    @Value("${queues.gerar_qr_code}")
     private String gerarQrCodeQueue;
 
-    @Value("${queue03.realiza_pagamento}")
+    @Value("${queues.realiza_pagamento}")
     private String realizaPagamentoQueue;
 
-    @Value("${queue05.confirma_producao}")
+    @Value("${queues.confirma_producao}")
     private String confirmaProducaoQueue;
 
     @Override

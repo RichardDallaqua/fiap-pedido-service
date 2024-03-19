@@ -6,21 +6,17 @@ spring:
     mongodb:
       uri: ${MONGO_URL:mongodb://root:root@127.0.0.1:27017/db?authSource=admin}
   rabbitmq:
-      host: ${RABBIT_HOST:localhost}
-      port: 5672
-      username: ${RABBIT_USER:guest}
-      password: ${RABBIT_PASS:guest}
-queue01:
-  gerar_qr_code: gerar_qr_code
-queue02:
-  qr_code_gerado: qr_code_gerado
-queue03:
-  realiza_pagamento: realiza_pagamento
-queue04:
-  pagamento_concluido: pagamento_concluido
-queue05:
-  confirma_producao: confirma_producao
+      addresses: ${RABBIT_HOST:localhost}
+      username: ${RABBIT_USER:teste}
+      password: ${RABBIT_PASS:teste}
+      virtual-host: rabbit
 
+queues:
+  gerar_qr_code: gerar_qr_code
+  qr_code_gerado: qr_code_gerado
+  realiza_pagamento: realiza_pagamento
+  pagamento_concluido: pagamento_concluido
+  confirma_producao: confirma_producao
 
 server:
   port: 5000
@@ -28,4 +24,4 @@ server:
     context-path: /pedido-ms
 
 host:
-  payment: http://localhost:8080/fiap-payments/api/v1/payments
+  payment: ${PAYMENT_HOST:http://localhost:8080/fiap-payments/api/v1/payments}

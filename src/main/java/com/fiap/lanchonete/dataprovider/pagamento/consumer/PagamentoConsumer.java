@@ -29,7 +29,7 @@ public class PagamentoConsumer implements PagamentoConsumerGateway {
     @Autowired
     private Gson gson;
 
-    @RabbitListener(queues = {"${queue02.qr_code_gerado}"})
+    @RabbitListener(queues = {"${queues.qr_code_gerado}"})
     public void receiveQrCodeGerado(@Payload String message){
         HashMap<String, String> mensagem = gson.fromJson(message, HashMap.class);
         var qrCodeDTO = fromQrCodeMessage(mensagem);
@@ -38,7 +38,7 @@ public class PagamentoConsumer implements PagamentoConsumerGateway {
         pedidoDataProvider.save(pedido);
     }
 
-    @RabbitListener(queues = {"${queue04.pagamento_concluido}"})
+    @RabbitListener(queues = {"${queues.pagamento_concluido}"})
     public void receivePagamentoConcluido(@Payload String message){
         HashMap<String, String> mensagem = gson.fromJson(message, HashMap.class);
         var pagamentoResponseDTO = fromPagamentoMessage(mensagem);
