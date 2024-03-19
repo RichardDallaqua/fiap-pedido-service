@@ -11,6 +11,7 @@ spring:
       password: ${RABBIT_PASS:teste}
       virtual-host: rabbit
 
+
 queues:
   gerar_qr_code: gerar_qr_code
   qr_code_gerado: qr_code_gerado
