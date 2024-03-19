@@ -6,10 +6,12 @@ spring:
     mongodb:
       uri: mongodb://ec2-54-175-195-27.compute-1.amazonaws.com:27017/db
   rabbitmq:
-      addresses: "amqps://b-4885be68-aa8d-41e7-82e6-71dc375cb847.mq.us-east-1.amazonaws.com:5671"
+      host: b-4885be68-aa8d-41e7-82e6-71dc375cb847.mq.us-east-1.amazonaws.com
+      port: 5671
       username: ${RABBIT_USER:teste}
-      password: ${RABBIT_PASS:teste}
+      password: ${RABBIT_PASS:teste123123123}
       virtual-host: rabbit
+      ssl.enabled: true
 
 
 queues:
